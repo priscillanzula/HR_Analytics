@@ -1,4 +1,5 @@
 # deployment/api_smote.py
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
@@ -20,11 +21,12 @@ app = FastAPI(
 )
 
 # Load components
-MODEL_PATH = "deployment/models/"
-rf_model = joblib.load(f"{MODEL_PATH}random_forest_smote.pkl")
-xgb_model = joblib.load(f"{MODEL_PATH}xgboost_smote.pkl")
-preprocessor = joblib.load(f"{MODEL_PATH}preprocessor.pkl")
-metadata = joblib.load(f"{MODEL_PATH}metadata.pkl")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = BASE_DIR  # since models are in the same fo
+rf_model = joblib.load(os.path.join(MODEL_PATH, "random_forest_smote.pkl"))
+xgb_model = joblib.load(os.path.join(MODEL_PATH, "xgboost_smote.pkl"))
+preprocessor = joblib.load(os.path.join(MODEL_PATH, "preprocessor.pkl"))
+metadata = joblib.load(os.path.join(MODEL_PATH, "metadata.pkl"))
 
 
 class EmployeeFeatures(BaseModel):
@@ -98,7 +100,7 @@ async def get_model_details():
 async def predict_attrition(features: EmployeeFeatures):
     """
     Predict attrition risk using SMOTE-trained ensemble models
-    
+
     ⚠️ Note: Models were trained on balanced data but predictions
     are calibrated for real-world imbalanced distributions.
     """
@@ -155,7 +157,7 @@ async def predict_attrition(features: EmployeeFeatures):
                 "xgboost_probability": float(xgb_proba),
                 "risk_level": risk_level,
                 "recommended_action": action,
-                "above_threshold": calibrated_proba > 0.3
+                "above_threshold": bool(calibrated_proba > 0.3)
             },
             business_impact={
                 "estimated_attrition_cost": f"${retention_cost:,.0f}",
@@ -179,7 +181,7 @@ async def predict_attrition(features: EmployeeFeatures):
 def calibrate_smote_probability(prob):
     """
     Calibrate probability from SMOTE-trained model to real-world distribution
-    
+
     Model trained on 50/50 data, but real world is ~33/67 (leavers/stayers)
     Using Platt scaling adjustment
     """
@@ -303,7 +305,7 @@ async def predict_batch(features_list: list[EmployeeFeatures]):
             "total_employees": len(results),
             "high_risk_count": sum(1 for p in probabilities if p > 0.3),
             "critical_risk_count": sum(1 for p in probabilities if p > 0.7),
-            "average_risk": np.mean(probabilities),
+            "average_risk": float(np.mean(probabilities)),
             "predictions": results
         }
 
