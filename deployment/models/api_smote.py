@@ -10,12 +10,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = FastAPI(
-    title="HR Attrition Prediction API (SMOTE-Trained)",
+    title="HR Attrition Prediction API",
     description="""
     ⚠️ IMPORTANT: Models trained on SMOTE-balanced data for better minority class detection.
-    - Recall optimized: 74% of leavers identified
-    - Business cost: False Negative > False Positive
-    - Training data balanced, prediction uses original distributions
+    - Recall optimized: 74% of leavers identified.
+    - Business cost: False Negative > False Positive.
+    - Training data balanced, prediction uses original distributions.
     """,
     version="1.0.0"
 )
@@ -60,12 +60,25 @@ class PredictionResponse(BaseModel):
 @app.get("/model-details")
 async def get_model_details():
     """Returns detailed information about the SMOTE-trained models"""
+
+    # Convert numpy types to Python types
+    def convert_numpy(obj):
+        """Convert numpy types to native Python types"""
+        if isinstance(obj, dict):
+            return {key: convert_numpy(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_numpy(item) for item in obj]
+        elif hasattr(obj, 'item'):  # numpy types have .item() method
+            return obj.item()
+        else:
+            return obj
+
     return {
         "training_strategy": "SMOTE-balanced training set",
         "rationale": "Optimize recall for minority class (leavers)",
         "class_distribution": {
-            "original_training": metadata['class_distribution_original'],
-            "after_smote": metadata['class_distribution_after_smote'],
+            "original_training": convert_numpy(metadata['class_distribution_original']),
+            "after_smote": convert_numpy(metadata['class_distribution_after_smote']),
             "test_set": "Unchanged (real-world distribution)"
         },
         "models": [
@@ -74,8 +87,8 @@ async def get_model_details():
                 "trained_on": "SMOTE-balanced data",
                 "parameters": {"n_estimators": 100, "max_depth": 10},
                 "performance": {
-                    "f1_score": round(metadata['model_performance']['rf_f1'], 3),
-                    "recall": round(metadata['model_performance']['rf_recall'], 3)
+                    "f1_score": round(float(metadata['model_performance']['rf_f1']), 3),
+                    "recall": round(float(metadata['model_performance']['rf_recall']), 3)
                 }
             },
             {
@@ -83,8 +96,8 @@ async def get_model_details():
                 "trained_on": "SMOTE-balanced data",
                 "parameters": {"n_estimators": 100, "max_depth": 3, "learning_rate": 0.1},
                 "performance": {
-                    "f1_score": round(metadata['model_performance']['xgb_f1'], 3),
-                    "recall": round(metadata['model_performance']['xgb_recall'], 3)
+                    "f1_score": round(float(metadata['model_performance']['xgb_f1']), 3),
+                    "recall": round(float(metadata['model_performance']['xgb_recall']), 3)
                 }
             }
         ],

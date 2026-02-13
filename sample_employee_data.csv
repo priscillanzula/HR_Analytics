@@ -1,0 +1,6 @@
+EmployeeID,Age,Department,SatisfactionScore,LastEvaluationScore,NumProjects,AvgMonthlyHours,YearsAtCompany
+EMP001,35,finance,0.45,0.75,6,220,3
+EMP002,28,hr,0.85,0.80,4,160,2
+EMP003,42,it,0.30,0.65,8,280,5
+EMP004,31,sales,0.75,0.70,5,180,4
+EMP005,45,operations,0.60,0.85,3,150,7
