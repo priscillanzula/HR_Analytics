@@ -237,12 +237,12 @@ RECOMMENDED ACTIONS:
 
 ## 👨‍💻 Author
 
-**Your Name**  
+Nzula Priscilla Malombe  
 Data Scientist | Machine Learning Engineer
 
-- 📧 Email: your.email@example.com
-- 💼 LinkedIn: [your-linkedin](https://linkedin.com/in/yourprofile)
-- 🔗 Portfolio: [yourwebsite.com](https://yourwebsite.com)
+- 📧 Email: danielpriscilla61@gmail.com
+- 💼 LinkedIn: https://www.linkedin.com/in/priscilla-nzula/
+- 🔗 Portfolio: https://nzulapriscillaportfolio.netlify.app/
 
 ---
 
@@ -258,14 +258,8 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 - Inspiration: Reducing employee turnover through data science
 - Tools: scikit-learn, pandas, XGBoost
 
----
 
-## 📞 Support
 
-Questions or feedback? 
-- Open an [issue](https://github.com/yourusername/HR_Analytics/issues)
-- Email: your.email@example.com
 
----
 
-**⭐ If this project helped you, please give it a star!**
+
