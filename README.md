@@ -19,6 +19,14 @@ A machine learning project to predict which employees are at risk of leaving, he
 ---
 
 ## 🎬 Quick Demo
+<img width="467" height="241" alt="data_input" src="https://github.com/user-attachments/assets/c9223811-2ea1-4399-ae1f-25a228e67136" />
+<img width="416" height="104" alt="cli_recon" src="https://github.com/user-attachments/assets/87c4ed35-97f7-4f74-ac7c-a020e476b73e" />
+<img width="499" height="295" alt="cli_analysis" src="https://github.com/user-attachments/assets/1b9ae929-8540-4468-b7fc-d44e9319fc4a" />
+<img width="482" height="310" alt="CLI_1" src="https://github.com/user-attachments/assets/3c136f12-b07c-4c04-964b-42baff9fcb2c" />
+
+
+https://github.com/user-attachments/assets/ec9f164a-2a45-4949-b054-370cca7d9628
+
 
 ### Option 1: REST API (Recommended - Production Ready)
 ```bash
